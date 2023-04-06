@@ -7,6 +7,34 @@ Flask application to demonstrate the following features:
     File handling
     Public view
 
+## DBMS Prerequisites
+Install MySQL Workbench and Xaamp
+In Xaamp, run Apache and MySQL services.
+
+
+In Workbench, set up a connection with localhost IP, port 3306, and root username.
+
+To create the 'geekprofile' database & accounts table, execute the following query:
+
+CREATE DATABASE IF NOT EXISTS `geekprofile` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `geekprofile`;
+
+CREATE TABLE IF NOT EXISTS `accounts` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`username` varchar(50) NOT NULL,
+    `password` varchar(255) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `organisation` varchar(100) NOT NULL,
+    `address` varchar(100) NOT NULL,
+    `city` varchar(100) NOT NULL,
+    `state` varchar(100) NOT NULL,
+    `country` varchar(100) NOT NULL,
+    `postalcode` varchar(100) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+
 ## Installation
 
 In the root directory (FlaskPortal), create a python virtual environment
@@ -27,5 +55,9 @@ Alternatively, you can run:
 With dependencies installed and virtual environment activated, navigate to 'geeksprofile'
 Run app.py:
     python app.py
+
+
+Create a new user using the registration page. If you're using old users from a database, you may need to delete them
+with a query and re-register to login. This applies for the 'admin' user as well.
 
 
