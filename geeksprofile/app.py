@@ -34,6 +34,7 @@ class User(Base):
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'upload_folder'
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 # set max file size to 2MB
+
  # CORS(app)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
  
@@ -69,11 +70,15 @@ cur = conn.cursor()
 def page_not_found(e):
     return render_template('404.html') , 404
 
+
 @app.errorhandler(400)
 def bad_request():
     return render_template('400.html') , 400
- 
 
+@app.errorhandler(401)
+def user_not_authorized():
+    return render_template('401.html') , 401
+ 
 
 def authenticate_user(username, password):
     try:
@@ -110,7 +115,7 @@ def authenticate_user(username, password):
 @app.route('/login', methods =['GET', 'POST'])
 def login():
     msg = ''
-    if request.method == 'POST':# and 'username' in request.form and 'password' in request.form:
+    if request.method == 'POST':
         
         username = request.form['username']
         password = request.form['password']
@@ -175,7 +180,6 @@ def register():
         elif not re.match(r'[A-Za-z0-9]+', user.username):
             msg = 'name must contain only characters and numbers !'
         else:
-            #cur.execute('INSERT INTO accounts VALUES (NULL, % s, % s, % s, % s, % s, % s, % s, % s, % s)', (user.username, user.password, user.email, user.organisation, user.address, user.city, user.state, user.country, user.postalcode, ))
             session.add(user)
             session.commit()
             msg = 'You have successfully registered !'
@@ -232,8 +236,11 @@ def public():
     organizations = [account.organisation for account in accounts]
     return render_template('public.html', organizations=organizations)
 
-@app.route("/upload")
+@app.route("/upload") 
 def upload():
+    """
+    Loads the upload.html page
+    """
     token = request.cookies.get('token')
     if (token):
         try:
@@ -252,6 +259,9 @@ def upload():
 
 @app.route('/upload-file', methods=['POST'])
 def upload_file():
+    """
+    Handles the file upload
+    """
     token = request.cookies.get('token')
     if (token):
         try:
@@ -310,11 +320,6 @@ def admin():
             pass # handle invalid token or missing user_id in paylod
     return redirect(url_for('login'))
 
-
-@app.errorhandler(401)
-def user_not_authorized():
-    return render_template('401.html') , 401
-    
 
 @app.route("/update", methods =['GET', 'POST'])
 def update():
