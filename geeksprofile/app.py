@@ -15,6 +15,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
+# If root user has a non-blank password, add password after 'root:'
 engine = create_engine('mysql+pymysql://root:@localhost/geekprofile')
 
 class User(Base):
@@ -50,7 +51,7 @@ session = Session()
 
 
 
- 
+# If root user has a non-blank password, replace the empty string in 'password = ""' with the actual password
 conn = pymysql.connect(
         host='localhost',
         user='root', 
