@@ -65,7 +65,23 @@ python -m venv myenv
 * Alternatively, you can run:
     ```python -m pip install -r requirements.txt```
 
+## Setting Up a MySQL Connection in app.py
 
+If the root user has set a password for MySQL (not using a blank default password), update lines 19 and 58 in app.py.
+
+* In line 19, add the actual password after 'root:'
+```engine = create_engine('mysql+pymysql://root:actualMySQLpassword@localhost/geekprofile')```
+
+* In line 58, replace the empty string in 'password = ""' with the actual password
+```
+conn = pymysql.connect(
+        host='localhost',
+        user='root', 
+        password = "actualMySQLpassword",
+        db='geekprofile',
+		cursorclass=pymysql.cursors.DictCursor
+        )
+```
 
 ## Usage
 
