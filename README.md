@@ -1,7 +1,9 @@
 # Authors
-Matthew Butner
-Pedro Morales
-Kim Eaton
+* Matthew Butner
+
+* Pedro Morales
+
+* Kim Eaton
 
 
 
