@@ -139,7 +139,7 @@ def login():
             token = jwt.encode(token_payload, app.secret_key, algorithm='HS256')
             #Store token in a secure cookie
             response = make_response(render_template('index.html',msg=msg))
-            response.set_cookie('token', token, httponly=True, secure=True)
+            response.set_cookie('token', token)
             return response
         else:
             msg = 'Incorrect username / password !'
